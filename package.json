@@ -1,0 +1,14 @@
+{
+  "name": "return-analytics-dashboard",
+  "version": "1.0.0",
+  "description": "Return Analytics Dashboard with React frontend and Express backend",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "build": "pnpm run --recursive build"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ]
+}

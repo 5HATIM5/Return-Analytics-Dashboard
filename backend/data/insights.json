@@ -1,0 +1,47 @@
+[
+  {
+    "sku": "1005",
+    "title": "Product F",
+    "variant": "M / Blue",
+    "insight": "Returned 172 times with reason \"Wrong item\"",
+    "note": "Lorem Ipsum",
+    "id": "1754764825375",
+    "createdAt": "2025-08-09T18:40:25.375Z"
+  },
+  {
+    "sku": "1019",
+    "title": "Product T",
+    "variant": "S / Green",
+    "insight": "Size/fit issues detected for S / Green",
+    "note": "Lorem Ipsum",
+    "id": "1754764832208",
+    "createdAt": "2025-08-09T18:40:32.208Z"
+  },
+  {
+    "sku": "1004",
+    "title": "Product E",
+    "variant": "XL / Blue",
+    "insight": "Returned 142 times with reason \"Wrong item\"",
+    "note": "Lorem Ipsum",
+    "id": "1754764837072",
+    "createdAt": "2025-08-09T18:40:37.072Z"
+  },
+  {
+    "sku": "1014",
+    "title": "Product O",
+    "variant": "XL / Black",
+    "insight": "Returned 117 times with reason \"Wrong item\"",
+    "note": "sdASD",
+    "id": "1754776170819",
+    "createdAt": "2025-08-09T21:49:30.819Z"
+  },
+  {
+    "sku": "1014",
+    "title": "Product O",
+    "variant": "XL / Black",
+    "insight": "High return rate due to wrong item",
+    "note": "ASDASD",
+    "id": "1754776180115",
+    "createdAt": "2025-08-09T21:49:40.115Z"
+  }
+]
