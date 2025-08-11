@@ -11,6 +11,7 @@ interface Props {
 export const InsightForm: React.FC<Props> = ({ variant, onSaveInsight, onClose, isLoading }) => {
   const [insight, setInsight] = useState('');
   const [note, setNote] = useState('');
+  const [isCustomInsight, setIsCustomInsight] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,14 +26,41 @@ export const InsightForm: React.FC<Props> = ({ variant, onSaveInsight, onClose, 
     });
   };
 
+  const handleInsightChange = (value: string) => {
+    setInsight(value);
+    setIsCustomInsight(false);
+  };
+
+  const handleCustomInsightChange = (value: string) => {
+    setInsight(value);
+    setIsCustomInsight(value.trim() !== '');
+  };
+
   const generateSuggestedInsights = () => {
     if (!variant) return [];
     
+    // Extract size and color from variant string
+    const [size, _ ] = variant.variant.split(' / ');
+    const totalReturns = variant.returnCount;
+    const mainReason = variant.mostCommonReason;
+    const mainReasonCount = variant.reasons[mainReason] || 0;
+    
     const suggestions = [
-      `Variant SKU:${variant.sku} is the most returned item`,
-      `Returned ${variant.returnCount} times with reason "${variant.mostCommonReason}"`,
-      `High return rate due to ${variant.mostCommonReason.toLowerCase()}`,
-      `Size/fit issues detected for ${variant.variant}`
+      // 1. Percentage-based insight (most actionable)
+      `${Math.round((mainReasonCount / totalReturns) * 100)}% of returns due to "${mainReason}" (${mainReasonCount}/${totalReturns})`,
+      
+      // 2. Size-specific recommendation (if applicable)
+      size && ['XS', 'S', 'M', 'L', 'XL', 'XXL'].includes(size) 
+        ? `Size ${size} appears ${mainReason?.toLowerCase().includes('large') ? 'too large' : mainReason?.toLowerCase().includes('small') ? 'too small' : 'problematic'} - review sizing`
+        : `High return volume: ${totalReturns} returns - investigate quality issues`,
+      
+      // 3. Action-oriented insight
+      totalReturns > 15 
+        ? `Critical: ${totalReturns} returns require immediate attention - check product quality and sizing`
+        : `Monitor: ${totalReturns} returns suggest potential issues with ${mainReason?.toLowerCase()}`,
+      
+      // 4. Business impact insight
+      `Variant ${variant.sku} (${variant.variant}) - ${totalReturns} returns affecting inventory and customer satisfaction`
     ];
     
     return suggestions;
@@ -56,11 +84,11 @@ export const InsightForm: React.FC<Props> = ({ variant, onSaveInsight, onClose, 
             <label htmlFor="insight">Insight *</label>
             <select 
               id="insight"
-              value={insight}
-              onChange={(e) => setInsight(e.target.value)}
-              required
+              value={isCustomInsight ? "" : insight}
+              onChange={(e) => handleInsightChange(e.target.value)}
+              disabled={isCustomInsight}
             >
-              <option value="">Select or type custom insight...</option>
+              <option value="">Select a suggested insight...</option>
               {generateSuggestedInsights().map((suggestion, index) => (
                 <option key={index} value={suggestion}>{suggestion}</option>
               ))}
@@ -69,7 +97,7 @@ export const InsightForm: React.FC<Props> = ({ variant, onSaveInsight, onClose, 
               type="text"
               placeholder="Or enter custom insight..."
               value={insight}
-              onChange={(e) => setInsight(e.target.value)}
+              onChange={(e) => handleCustomInsightChange(e.target.value)}
               className="custom-insight"
             />
           </div>
